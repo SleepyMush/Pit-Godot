@@ -58,14 +58,13 @@ func createCube(position, color):
 	add_child(static_body)
 
 func generate_new_cubes_from_position(player_position):
-	for x in range(GENERATION_BOUND_DISTANCE * 4):
-		x += (player_position.x - GENERATION_BOUND_DISTANCE)
-		for z in range(GENERATION_BOUND_DISTANCE * 4):
-			z += (player_position.z - GENERATION_BOUND_DISTANCE)
-			var random_position = Vector3(x, 0, z)
-			var distance_to_player = player_position.distance_to(random_position)
+	for x in range(player_position.x - GENERATION_BOUND_DISTANCE, player_position.x + GENERATION_BOUND_DISTANCE):
+		for z in range(player_position.z - GENERATION_BOUND_DISTANCE, player_position.z + GENERATION_BOUND_DISTANCE):
+			var position = Vector3(x, 0, z)
+			var distance_to_player = player_position.distance_to(position)
 			if distance_to_player <= GENERATION_BOUND_DISTANCE:
-				generate_cube_if_new(random_position.x, random_position.z)
+				generate_cube_if_new(position.x, position.z)
+
 
 func generate_cube_if_new(x,z):
 	if !has_cube_been_Generated(x,z):
@@ -86,3 +85,5 @@ func register_cube_generation_at_coordinate(x,z):
 		generated_cubes[x][z] = true
 	else:
 		generated_cubes[x] = {z: true}  
+
+
