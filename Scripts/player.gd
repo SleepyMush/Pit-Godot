@@ -31,11 +31,10 @@ func _physics_process(delta):
 	else:
 		Current_Speed = walking_speed
 	
-	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-
+	
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = Jump_velocity

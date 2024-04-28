@@ -1,13 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cxkwou0och62j"]
+[gd_scene load_steps=7 format=3 uid="uid://cxkwou0och62j"]
 
 [ext_resource type="Script" path="res://Scripts/World_Generation.gd" id="1_kh0mk"]
 [ext_resource type="Script" path="res://Scripts/World_Debug.gd" id="1_sstku"]
 [ext_resource type="PackedScene" uid="uid://duid6mk4okcmd" path="res://Main/player.tscn" id="2_56g5g"]
-[ext_resource type="Script" path="res://Scripts/Mesh_Generation.gd" id="4_n871p"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_7xi7l"]
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_g58jy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7215k"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -24,14 +19,8 @@ glow_enabled = true
 
 [node name="Main" type="Node"]
 
-[node name="World_Generation" type="Node3D" parent="."]
-script = ExtResource("1_kh0mk")
-noise = SubResource("FastNoiseLite_7xi7l")
-
-[node name="Plane" type="MeshInstance3D" parent="World_Generation"]
-mesh = SubResource("ArrayMesh_g58jy")
-skeleton = NodePath("../..")
-script = ExtResource("4_n871p")
+[node name="World_Debug" type="Node" parent="."]
+script = ExtResource("1_sstku")
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -42,7 +31,7 @@ environment = SubResource("Environment_votyj")
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("2_56g5g")]
+[node name="World_Gen" type="Node3D" parent="."]
+script = ExtResource("1_kh0mk")
 
-[node name="World_Debug" type="Node" parent="."]
-script = ExtResource("1_sstku")
+[node name="Player" parent="." instance=ExtResource("2_56g5g")]

@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://cxkwou0och62j"]
+
+[ext_resource type="Script" path="res://Scripts/World_Generation.gd" id="1_kh0mk"]
+[ext_resource type="Script" path="res://Scripts/World_Debug.gd" id="1_sstku"]
+[ext_resource type="PackedScene" uid="uid://duid6mk4okcmd" path="res://Main/player.tscn" id="2_56g5g"]
+[ext_resource type="Texture2D" uid="uid://0opmheewxaso" path="res://icon.svg" id="2_t4sch"]
+[ext_resource type="Script" path="res://Scripts/Mesh_Generation.gd" id="4_n871p"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7215k"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_wh8xi"]
+sky_material = SubResource("ProceduralSkyMaterial_7215k")
+
+[sub_resource type="Environment" id="Environment_votyj"]
+background_mode = 2
+sky = SubResource("Sky_wh8xi")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_f32la"]
+_surfaces = [{
+"aabb": AABB(0, 0, 0, 1, 1e-05, 1),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63),
+"format": 34359742487,
+"index_count": 6,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 0, 0, 2, 0, 3, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128)
+}]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7c30a"]
+albedo_texture = ExtResource("2_t4sch")
+
+[node name="Main" type="Node"]
+
+[node name="World_Debug" type="Node" parent="."]
+script = ExtResource("1_sstku")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_votyj")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="World_Gen" type="Node3D" parent="."]
+script = ExtResource("1_kh0mk")
+
+[node name="Plane" type="MeshInstance3D" parent="World_Gen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37013, -2.05054)
+mesh = SubResource("ArrayMesh_f32la")
+surface_material_override/0 = SubResource("StandardMaterial3D_7c30a")
+script = ExtResource("4_n871p")
+
+[node name="Player" parent="." instance=ExtResource("2_56g5g")]
